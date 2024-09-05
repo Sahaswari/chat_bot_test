@@ -8,17 +8,22 @@ OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
 client = OpenAI()
 
-question = 'hello'
+while True:
+    question = input("user: ")
+    if question != "bye":
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            max_tokens=50,
+            n=1,
+            temperature=0,
+            messages=[
+                {"role":"user", "content":"question"}
+            ]
+        )
 
-response = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    max_tokens=50,
-    n=1,
-    temperature=0,
-    messages=[
-        {"role":"user", "content":"question"}
-    ]
-)
-
-for choice in response.choices:
-    print(choice.message.content)
+        for choice in response.choices:
+            print(f"AI : {choice.message.content}")
+        
+    else:
+        print("AI:Bye..")
+        break
